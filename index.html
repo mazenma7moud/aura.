@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - أورا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/3081/3081840.png" alt="Aura Logo" class="logo-img">
+                <span class="logo-text">Aura</span>
+            </div>
+            <div class="cart-icon" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>اكتشف أناقتك مع <span>Aura</span></h1>
+            <p>تشكيلة مميزة من المنتجات العصرية بأفضل الأسعار</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">منتجاتنا المميزة</h2>
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-bag"></i> سلة المشتريات</h3>
+            <button class="close-cart" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart">
+                <i class="fas fa-shopping-basket"></i>
+                <p>السلة فارغة</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>المجموع:</span>
+                <span id="cartSubtotal">0 ج.م</span>
+            </div>
+            <div class="cart-total">
+                <span>مصاريف الشحن:</span>
+                <span id="cartShipping">0 ج.م</span>
+            </div>
+            <div class="cart-total total-row">
+                <span>الإجمالي:</span>
+                <span id="cartTotal">0 ج.م</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn" onclick="openCheckout()" disabled>
+                <i class="fas fa-credit-card"></i> إتمام الطلب
+            </button>
+        </div>
+    </aside>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="modal-header">
+            <h3><i class="fas fa-file-invoice"></i> تأكيد الطلب</h3>
+            <button class="close-modal" onclick="closeCheckout()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="order-summary" id="orderSummary"></div>
+            <form class="checkout-form" id="checkoutForm" onsubmit="submitOrder(event)">
+                <div class="form-group">
+                    <label for="customerName"><i class="fas fa-user"></i> الاسم الكامل *</label>
+                    <input type="text" id="customerName" required placeholder="أدخل اسمك الثلاثي">
+                </div>
+                <div class="form-group">
+                    <label for="customerPhone"><i class="fas fa-phone"></i> رقم الهاتف *</label>
+                    <input type="tel" id="customerPhone" required placeholder="01xxxxxxxxx" pattern="[0-9]{11}">
+                </div>
+                <div class="form-group">
+                    <label for="customerGovernorate"><i class="fas fa-map-marker-alt"></i> المحافظة *</label>
+                    <select id="customerGovernorate" required onchange="updateShipping()">
+                        <option value="">اختر المحافظة</option>
+                        <option value="cairo">القاهرة - 50 ج.م</option>
+                        <option value="giza">الجيزة - 50 ج.م</option>
+                        <option value="alexandria">الإسكندرية - 70 ج.م</option>
+                        <option value="qalyubia">القليوبية - 70 ج.م</option>
+                        <option value="menoufia">المنوفية - 70 ج.م</option>
+                        <option value="gharbia">الغربية - 70 ج.م</option>
+                        <option value="dakahlia">الدقهلية - 70 ج.م</option>
+                        <option value="sharkia">الشرقية - 70 ج.م</option>
+                        <option value="damietta">دمياط - 70 ج.م</option>
+                        <option value="port_said">بورسعيد - 70 ج.م</option>
+                        <option value="ismailia">الإسماعيلية - 70 ج.م</option>
+                        <option value="suez">السويس - 70 ج.م</option>
+                        <option value="beheira">البحيرة - 85 ج.م</option>
+                        <option value="kafr_el_sheikh">كفر الشيخ - 85 ج.م</option>
+                        <option value="fayoum">الفيوم - 85 ج.م</option>
+                        <option value="beni_suef">بني سويف - 85 ج.م</option>
+                        <option value="minya">المنيا - 85 ج.م</option>
+                        <option value="asyut">أسيوط - 100 ج.م</option>
+                        <option value="sohag">سوهاج - 100 ج.م</option>
+                        <option value="qena">قنا - 100 ج.م</option>
+                        <option value="luxor">الأقصر - 100 ج.م</option>
+                        <option value="aswan">أسوان - 100 ج.م</option>
+                        <option value="red_sea">البحر الأحمر - 100 ج.م</option>
+                        <option value="new_valley">الوادي الجديد - 100 ج.م</option>
+                        <option value="matrouh">مطروح - 100 ج.م</option>
+                        <option value="north_sinai">شمال سيناء - 100 ج.م</option>
+                        <option value="south_sinai">جنوب سيناء - 100 ج.م</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="customerAddress"><i class="fas fa-home"></i> العنوان بالتفصيل *</label>
+                    <textarea id="customerAddress" required placeholder="المنطقة - الشارع - رقم العمارة - الدور"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="customerNotes"><i class="fas fa-sticky-note"></i> ملاحظات (اختياري)</label>
+                    <textarea id="customerNotes" placeholder="أي ملاحظات خاصة بالطلب"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> تأكيد وإرسال الطلب
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        <div class="success-content">
+            <i class="fas fa-check-circle"></i>
+            <h3>تم إرسال طلبك بنجاح!</h3>
+            <p>سنتواصل معك قريباً لتأكيد الطلب</p>
+            <button onclick="closeSuccess()">حسناً</button>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>جاري إرسال طلبك...</p>
+    </div>
+
+    <script src="scprit.js"></script>
+</body>
+</html>
